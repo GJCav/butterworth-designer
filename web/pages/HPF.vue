@@ -1,11 +1,16 @@
 <template>
   <div>
-    这是一个大作业~~~
+    HPF
   </div>
 </template>
 
+
+
 <script>
 export default {
-  name: 'IndexPage'
+  name: "HPF",
+  data: () => ({
+
+  })
 }
 </script>
