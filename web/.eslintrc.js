@@ -26,6 +26,8 @@ module.exports = {
     "vue/html-self-closing": "off",
     camelcase: "off",
     "no-unused-vars": "warn",
-    "brace-style": "off"
+    "brace-style": "off",
+    "vue/singleline-html-element-content-newline": "off",
+    "import/order": "warn"
   }
 }

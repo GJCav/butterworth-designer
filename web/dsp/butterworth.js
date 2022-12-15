@@ -33,3 +33,20 @@ export const calc_poles = (data) => {
   }
   return poles
 }
+
+export const transfer_func = (data) => {
+  const { G_0, w_c, poles } = data
+  return (w) => {
+    let v = mjs.chain(mjs.pow(10, G_0 / 20))
+    const we = w / w_c
+    for (const p of poles) {
+      const A = mjs
+        .chain(mjs.i).multiply(we)
+        .subtract(
+          mjs.exp(mjs.chain(mjs.i).multiply(p).done())
+        ).done()
+      v = v.multiply(mjs.divide(1, A))
+    }
+    return v.done()
+  }
+}

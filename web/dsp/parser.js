@@ -15,9 +15,9 @@ export const extend_scale_unit = (s) => {
 
 export const encode_scale_unit = (n, precision = -1) => {
   let c = ""
-  if (n > 1e9) { c = "G" }
-  else if (n > 1e6) { c = "M" }
-  else if (n > 1e3) { c = "K" }
+  if (n >= 1e9) { c = "G" }
+  else if (n >= 1e6) { c = "M" }
+  else if (n >= 1e3) { c = "K" }
   else { c = "" }
 
   if (c in scale_unit) {
