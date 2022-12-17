@@ -31,7 +31,7 @@ export default {
     // init poles diagram
     const option = {
       title: { text: "Magnitude Response" },
-      tooltip: { trigger: "none" },
+      tooltip: { trigger: "axis", axisPointer: { type: "cross" } },
       legend: { show: false },
       xAxis: {
         name: "f (Hz)",

@@ -270,7 +270,7 @@ export default {
     if (this.pulse_resp == null) {
       const pulse_opt = {
         title: { text: "Unit Pulse Response" },
-        tooltip: { trigger: "none" },
+        tooltip: { trigger: "axis", axisPointer: { type: "cross" } },
         legend: { show: false },
         xAxis: { name: "t (s)", type: "value" },
         yAxis: { name: "h(t)", type: "value" },
@@ -290,7 +290,7 @@ export default {
     if (this.step_resp_chart == null) {
       const step_opt = {
         title: { text: "Unit Step Response" },
-        tooltip: { trigger: "none" },
+        tooltip: { trigger: "axis", axisPointer: { type: "cross" } },
         legend: { show: false },
         xAxis: { name: "t (s)", type: "value" },
         yAxis: { name: "h(t) * u(t)", type: "value" },
