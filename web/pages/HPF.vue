@@ -153,7 +153,7 @@
             </v-col>
             <v-col class="justify-center">
               <div style="width: 500px; height: 500px;">
-                <PoleZeroFig :poles="poles"></PoleZeroFig>
+                <PoleZeroFig :poles="poles" :zeros="true"></PoleZeroFig>
               </div>
             </v-col>
           </v-row>

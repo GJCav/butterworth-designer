@@ -10,7 +10,7 @@ export default {
 
   props: {
     poles: { type: Array, default: () => ([]) },
-    zeros: { type: Array, default: () => ([]) }
+    zeros: { type: Boolean, default: () => false }
   },
 
   data: () => ({
@@ -32,10 +32,12 @@ export default {
     zeros() {
       if (this.chart) {
         this.chart.setOption({
-          series: [{
-            name: "zero",
-            data: this.zeros
-          }]
+          series: [
+            {
+              name: "zero",
+              data: this.zeros ? [[0.0001, 0]] : []
+            }
+          ]
         })
       }
     }
@@ -64,7 +66,7 @@ export default {
           coordinateSystem: "polar",
           name: "zero",
           symbol: "path://M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z",
-          data: []
+          data: this.zeros ? [[0.0001, 0]] : []
         }
       ]
     }
