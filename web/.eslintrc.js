@@ -28,6 +28,7 @@ module.exports = {
     "no-unused-vars": "warn",
     "brace-style": "off",
     "vue/singleline-html-element-content-newline": "off",
-    "import/order": "warn"
+    "import/order": "warn",
+    yoda: "off"
   }
 }
