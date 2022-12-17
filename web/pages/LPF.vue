@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2>目标参数:</h2>
+    <h2 ref="doc_top">目标参数:</h2>
     <v-row class="mt-6 align-baseline" dense>
       <v-col cols="6">
         <v-row class="align-baseline">
@@ -97,7 +97,11 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-btn color="primary" @click="solve_filter">Solve</v-btn>
+
+    <v-row class="mx-0">
+      <v-btn color="primary" @click="solve_filter">Solve</v-btn>
+      <v-btn outlined class="ml-5" @click="goto_params">Jump to Params</v-btn>
+    </v-row>
 
     <h2 class="mb-2 mt-12">求解结果：</h2>
 
@@ -165,7 +169,7 @@
       </v-expand-transition>
 
       <!-- 电路结构、参数 -->
-      <v-row class="align-center mt-2">
+      <v-row class="align-center mt-2" ref="doc_params">
         <v-btn color="primary" icon @click="expand_params = !expand_params">
           <v-icon>{{ expand_params ? "mdi-chevron-down" : "mdi-chevron-right" }}</v-icon>
         </v-btn>
@@ -177,7 +181,7 @@
           <v-row class="my-0">
             <p class="pl-8">其中每一个 Block 都是下面两个结构之一</p>
           </v-row>
-          <v-row style="width: 80%; margin: 0 auto 0 auto"><v-img src="/filter.jpg" contain /></v-row>
+          <v-row style="width: 80%; margin: 0 auto 0 auto"><v-img src="/lpf.jpg" contain /></v-row>
           <v-row class="my-0">
             <p class="pl-8">每个 Block 参数如下：</p>
           </v-row>
@@ -211,7 +215,12 @@
           </v-simple-table>
         </v-container>
       </v-expand-transition>
+
+      <v-btn class="mt-5" outlined @click="back_to_top">Back to Top</v-btn>
     </v-container>
+
+    <!-- padding bottom for beauty -->
+    <div style="height: 300px;"></div>
   </v-container>
 </template>
 
@@ -309,16 +318,13 @@ export default {
 
   methods: {
     solve_filter() {
-      const data = BTW.pack_params(
-        this.f_p_val * 2 * Math.PI,
-        this.f_s_val * 2 * Math.PI,
-        this.G_0_val,
-        this.A_p_val,
-        this.A_s_val
-      )
-      data.N = BTW.calc_n(data)
-      data.w_c = BTW.calc_w_c(data)
-      data.poles = BTW.calc_poles(data)
+      const data = BTW.LPF({
+        w_p: this.f_p_val * 2 * Math.PI,
+        w_s: this.f_s_val * 2 * Math.PI,
+        G_0: this.G_0_val,
+        A_p: this.A_p_val,
+        A_s: this.A_s_val
+      })
 
       this.N = data.N
       this.w_c = data.w_c
@@ -332,7 +338,7 @@ export default {
 
       if (this.enable_resp_chart) {
         // draw unit pulse response
-        const H = BTW.transfer_func(data)
+        const H = BTW.lpf_transfer_func(data)
         const t1 = (new Date()).getTime()
         const pulse_resp_data = fpck.IFT(H, 3, 60)
         console.log((new Date()).getTime() - t1)
@@ -348,6 +354,8 @@ export default {
       }
 
       const params = BTW.calc_filter_param(data)
+
+      // prepare for display
       for (let i = 0; i < params.length; i++) {
         // just for debug
         // console.log(BTW.inv_param(params[i], this.w_c))
@@ -360,6 +368,14 @@ export default {
         params[i].idx = i + 1
       }
       this.params_table = params
+    },
+
+    back_to_top() {
+      this.$vuetify.goTo(this.$refs.doc_top, { duration: 500 })
+    },
+
+    goto_params() {
+      this.$vuetify.goTo(this.$refs.doc_params, { duration: 500 })
     }
   },
 }
